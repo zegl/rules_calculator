@@ -9,7 +9,6 @@ def _number_impl(ctx):
 
     return [DefaultInfo(files = depset([out_file]))]
 
-
 number = rule(
     implementation = _number_impl,
     attrs = {

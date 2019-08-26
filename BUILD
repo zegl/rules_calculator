@@ -1,5 +1,9 @@
-load("//:math/add.bzl", "add", "mul")
+load("//:math/add.bzl", "add")
+load("//:math/mul.bzl", "mul")
+load("//:math/sub.bzl", "sub")
+load("//:math/div.bzl", "div")
 load("//:math/number.bzl", "number")
+load("//:math/display.bzl", "display")
 
 number(
     name = "two",
@@ -17,17 +21,31 @@ number(
 )
 
 add(
-    name = "three_plus_four",
+    name = "three_plus_four_plus_two",
     terms = [
         ":three",
         ":four",
+        ":two",
     ],
 )
 
 mul(
-    name = "three_plus_four__times__two",
+    name = "double",
     terms = [
-        ":three_plus_four",
+        ":three_plus_four_plus_two",
         ":two",
     ],
+)
+
+sub(
+    name = "sub_2",
+    terms = [
+        ":double",
+        ":two",
+    ],
+)
+
+display(
+    name = "calculator",
+    value = ":sub_2",
 )
