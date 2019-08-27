@@ -10,7 +10,19 @@ def _number_impl(ctx):
 
 number = rule(
     implementation = _number_impl,
+    doc = """
+Defines a single static number.
+
+Example:
+
+```python
+number(
+    name = "five",
+    number = 5,
+)
+```
+""",
     attrs = {
-        "number": attr.int(),
+        "number": attr.int(mandatory = True, doc = "The integer to write to the output"),
     },
 )

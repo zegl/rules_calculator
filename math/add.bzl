@@ -5,7 +5,24 @@ def _add_impl(ctx):
 
 add = rule(
     implementation = _add_impl,
+    doc = """
+Calculates the sum (addition) of the provided numbers.
+
+Example:
+
+```python
+# Calculates 3 + 4 + 2, with the output 9
+add(
+    name = "three_plus_four_plus_two",
+    terms = [
+        ":three",
+        ":four",
+        ":two",
+    ],
+)
+```
+""",
     attrs = {
-        "terms": attr.label_list(),
+        "terms": attr.label_list(mandatory = True, doc = "The numbers to add"),
     },
 )

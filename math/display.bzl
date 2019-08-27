@@ -17,6 +17,6 @@ display = rule(
     implementation = _display_impl,
     executable = True,
     attrs = {
-        "value": attr.label(),
+        "value": attr.label(mandatory = True, doc = "The numbers to print when running this target"),
     },
 )
