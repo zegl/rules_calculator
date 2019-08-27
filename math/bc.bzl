@@ -1,13 +1,17 @@
 def bc_impl(ctx, op, name):
-    term_files = [x.files.to_list()[0] for x in ctx.attr.terms]
+    term_files = [
+        item
+        for sublist in ctx.attr.terms
+        for item in sublist.files.to_list()
+    ]
 
-    print(name, term_files)
-
-    # Construct the command
-    # cmd will be something like this:
-    #    printf "%d+%d\n" $(cat bazel-out/darwin-fastbuild/bin/three.number) $(cat bazel-out/darwin-fastbuild/bin/four.number) | bc
+    # Example: "%d+%d+%d"
     bc_command = op.join(["%d" for x in term_files])
+
+    # Example: "$(cat a) $(cat b) $(cat c)"
     bc_files = " ".join(["$(cat %s)" % x.path for x in term_files])
+
+    # Example: printf "%d+%d\n" $(cat bazel-out/darwin-fastbuild/bin/three.number) $(cat bazel-out/darwin-fastbuild/bin/four.number) | bc
     cmd = 'printf "%s\\n" %s | bc' % (bc_command, bc_files)
 
     out_file = ctx.actions.declare_file("%s.%s" % (ctx.attr.name, name))
@@ -15,7 +19,7 @@ def bc_impl(ctx, op, name):
         inputs = term_files,
         outputs = [out_file],
         progress_message = "Executing %s %s" % (name, ctx.attr.name),
-        command = "sleep 1 && %s > '%s'" % (cmd, out_file.path),
+        command = "%s > '%s'" % (cmd, out_file.path),
     )
 
-    return [DefaultInfo(files = depset([out_file]))]
+    return DefaultInfo(files = depset([out_file]))

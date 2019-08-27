@@ -1,4 +1,4 @@
-load("//:math/bc.bzl", "bc_impl")
+load("//math:bc.bzl", "bc_impl")
 
 def _div_impl(ctx):
     return bc_impl(ctx, "/", "div")
