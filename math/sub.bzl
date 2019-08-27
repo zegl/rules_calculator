@@ -1,9 +1,7 @@
-load("//math:bc.bzl", "bc_impl")
-
 def _sub_impl(ctx):
     bc_files = "$(cat %s) $(cat %s)" % (
         ctx.attr.value.files.to_list()[0].path,
-        ctx.attr.subtract.files.to_list()[0].path
+        ctx.attr.subtract.files.to_list()[0].path,
     )
 
     cmd = 'printf "%%d-%%d\\n" %s | bc' % bc_files

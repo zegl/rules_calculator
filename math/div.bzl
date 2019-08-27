@@ -1,9 +1,7 @@
-load("//math:bc.bzl", "bc_impl")
-
 def _div_impl(ctx):
     bc_files = "$(cat %s) $(cat %s)" % (
         ctx.attr.dividend.files.to_list()[0].path,
-        ctx.attr.divisor.files.to_list()[0].path
+        ctx.attr.divisor.files.to_list()[0].path,
     )
 
     cmd = 'printf "%%d/%%d\\n" %s | bc' % bc_files
@@ -37,6 +35,6 @@ add(
 """,
     attrs = {
         "dividend": attr.label(mandatory = True),
-        "divisor": attr.label(mandatory = True)
+        "divisor": attr.label(mandatory = True),
     },
 )
